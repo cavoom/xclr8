@@ -1,5 +1,6 @@
 // OPEN AI Tester - responds to one record
 // See looper.js for a for loop that loops through all records in a sheet
+// mynewopenaikey
 
 var prompt = null;
 var theStuff = null;
@@ -8,7 +9,7 @@ var theStuff = null;
 import OpenAI from "openai";
 const openai = new OpenAI({
     //apiKey: process.env.OPENAI_API_KEY,
-    apiKey: process.env.myopenaikey
+    apiKey: process.env.mynewopenaikey
 });
 
 // Setup for Google Sheet Reader

@@ -10,13 +10,13 @@ const doc = new GoogleSpreadsheet ('1pe7U_jZAX9t1jdReke9NcTlNW-rHXa4rFlUsD7QZgKU
 // This converts the multiline key to something that it can read
 // https://stackoverflow.com/questions/55459528/using-private-key-in-a-env-file
 
-const getWriteKey = Buffer.from(process.env.getWriteKey , 'base64').toString('ascii');
+const getWriteKey2 = Buffer.from(process.env.getWriteKey2 , 'base64').toString('ascii');
 
 const creds = {
   "type": "service_account",
   "project_id": "top-campaign-350200",
-  "private_key_id": "38b2b65f1cb22d34a80312f57d2f0908179128b0",
-  "private_key": getWriteKey,
+  "private_key_id": "8a81fbec9edbb399207c05983cdd25beb60fd936",
+  "private_key": getWriteKey2,
   "client_email": "haasdp@top-campaign-350200.iam.gserviceaccount.com",
   "client_id": "115973351226664040812",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -33,7 +33,7 @@ var theResponses = [];
 import OpenAI from "openai";
 const openai = new OpenAI({
     //apiKey: process.env.OPENAI_API_KEY,
-    apiKey: process.env.myopenaikey
+    apiKey: process.env.mynewopenaikey
 });
 
 
@@ -80,7 +80,9 @@ async function loadTheSheet() {
       //rows[0].set('invite') = theResponses[0][1]; // update a value
 
      //addSomeRows(sheet,theResponses);
-     addSomeRows(sheet2,theResponses);
+     addSomeRows(sheet2,theResponses),()=>{
+
+     };
   
   
     })
@@ -103,7 +105,7 @@ async function aiTheStuff(rows,callback){
   const theLength = rows.length;
   var tempStuff = {};
   
- for (var x = 0;x<2;x++) { // FOR TESTING SMALL BATCH
+ for (var x = 0;x<theLength;x++) { // FOR TESTING SMALL BATCH
 
       prompt = "Given this person's LinkedIn summary: " + rows[x].summary + "explain how fractional office support workers could help them with administrative tasks. Start your response with, 'Based on your expertise with '. Do this in 175 characters or less with a casual writing style.";
       let res = await openai.chat.completions.create({
@@ -114,7 +116,7 @@ async function aiTheStuff(rows,callback){
           //top_p: 0.8
       });
       tempStuff = {invite: res.choices[0].message.content + " Please connect with me if you are open to exploring this further."};
-      console(tempStuff);
+      console.log(tempStuff);
       theResponses.push(tempStuff);
 
   }
@@ -132,8 +134,8 @@ return;
   
 
 // Step 4: WRITE some rows
-async function addSomeRows(sheet2,theResponses){
-
+async function addSomeRows(sheet2,theResponses,callback){
+  //console.log('at step 4:',theResponses);
     let thirdPromise = new Promise(function(resolve){
         //resolve(sheet.addRow({name: 'david p h', phone: '+12523053884',email: 'haasdp@gmail.com'}))
         resolve(sheet2.addRows(theResponses))

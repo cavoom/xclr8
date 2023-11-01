@@ -4,7 +4,9 @@
  // https://stackoverflow.com/questions/55459528/using-private-key-in-a-env-file
 
 
-const creds = {};
+const creds = {
+
+  };
 
 // Step 1: Run this code in a JS file on your Dev Machine with the actual key included above
 
@@ -15,5 +17,5 @@ console.log(buff);
 // Step 2: Copy the key
 
 // Step 3: Use the key with this converter in the code
-const key = Buffer.from(process.env.getWriteKey , 'base64').toString('ascii');
+//const key = Buffer.from(process.env.getWriteKey , 'base64').toString('ascii');
 // Use key anywhere in your code.
