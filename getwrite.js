@@ -66,6 +66,7 @@ async function loadTheSheet() {
     //console.log(doc.title);
     // grab the sheet so that we can work with it
     const sheet = doc.sheetsByIndex[0];
+    const sheet2 = doc.sheetsByIndex[1];
     // grab the rows from the sheet
     const rows = await sheet.getRows();
     //console.log(rows[0].get('fullName'));
@@ -78,7 +79,8 @@ async function loadTheSheet() {
       // Now push to the sheet
       //rows[0].set('invite') = theResponses[0][1]; // update a value
 
-     addSomeRows(sheet,theResponses);
+     //addSomeRows(sheet,theResponses);
+     addSomeRows(sheet2,theResponses);
   
   
     })
@@ -99,7 +101,7 @@ async function aiTheStuff(rows,callback){
 
   //const rows = await sheet.getRows(); // can pass in { limit, offset }
   const theLength = rows.length;
-  var tempStuff = [];
+  var tempStuff = {};
   
  for (var x = 0;x<2;x++) { // FOR TESTING SMALL BATCH
 
@@ -111,7 +113,8 @@ async function aiTheStuff(rows,callback){
           //temperature: 2,
           //top_p: 0.8
       });
-      tempStuff = [res.choices[0].message.content + " Please connect with me if you are open to exploring this further."];
+      tempStuff = {invite: res.choices[0].message.content + " Please connect with me if you are open to exploring this further."};
+      console(tempStuff);
       theResponses.push(tempStuff);
 
   }
@@ -129,11 +132,11 @@ return;
   
 
 // Step 4: WRITE some rows
-async function addSomeRows(sheet,theResponses){
+async function addSomeRows(sheet2,theResponses){
 
     let thirdPromise = new Promise(function(resolve){
         //resolve(sheet.addRow({name: 'david p h', phone: '+12523053884',email: 'haasdp@gmail.com'}))
-        resolve(sheet.addRows(theResponses))
+        resolve(sheet2.addRows(theResponses))
     })
     await thirdPromise;
     console.log('all done third promise');
